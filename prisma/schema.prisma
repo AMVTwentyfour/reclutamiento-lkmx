@@ -13,3 +13,24 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+// crea la base de datos y las tablas necesarias para el manejo de productos y categorías, 
+// producto contiene una fk a categoria, ya que su relación es de muchos a uno.
+model Category {
+  id        Int     @id @default(autoincrement())
+  name      String  @unique
+  products  Product[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  id          Int    @id @default(autoincrement())
+  name        String @unique
+  price       Float
+  stock       Int
+  categoryId  Int
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
