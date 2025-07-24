@@ -1,9 +1,9 @@
 # 🐳 Docker Setup para Reclutamiento LKMX
 
 
-### 1. Clonar el repositorio (si no lo has hecho)
+### 1. Clonar el repositorio
 ```bash
-git clone [https://github.com/amvtwentyfour/reclutamiento-lkmx](https://github.com/amvtwentyfour/reclutamiento-lkmx)
+git clone https://github.com/amvtwentyfour/reclutamiento-lkmx
 cd reclutamiento-lkmx
 ```
 
