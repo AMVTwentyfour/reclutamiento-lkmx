@@ -14,7 +14,7 @@
 - [Docker](https://docs.docker.com/get-docker/)
 - Cuenta de Google con facturación habilitada
 
-### **Configuración Inicial** (Solo si tienes facturación)
+### **Configuración Inicial**
 ```bash
 # 1. Instalar Google Cloud SDK
 curl https://sdk.cloud.google.com | bash
