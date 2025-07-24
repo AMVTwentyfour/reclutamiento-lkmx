@@ -26,11 +26,18 @@ export default function HomePage() {
                 Crear Categoría
               </a>
               <a 
+                href="/analytics" 
+                className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white font-medium rounded-xl transition-all duration-200 transform hover:scale-[1.02] focus:ring-4 focus:ring-indigo-200 focus:outline-none shadow-lg hover:shadow-xl"
+              >
+                <span className="mr-2">📊</span>
+                Analytics
+              </a>
+              <a 
                 href="/health" 
                 className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-medium rounded-xl transition-all duration-200 transform hover:scale-[1.02] focus:ring-4 focus:ring-green-200 focus:outline-none shadow-lg hover:shadow-xl"
               >
                 <span className="mr-2">🩺</span>
-                Estado del Sistema
+                Health
               </a>
             </div>
           </div>
