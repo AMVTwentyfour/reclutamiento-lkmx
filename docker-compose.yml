@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  # Servicio de base de datos PostgreSQL
+  db:
+    image: postgres:15-alpine
+    container_name: reclutamiento-lkmx-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: reclutamiento_lkmx
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d reclutamiento_lkmx"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - reclutamiento-network
+
+  # Servicio de la aplicación Next.js
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: reclutamiento-lkmx-app
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://postgres:password@db:5432/reclutamiento_lkmx
+      - NEXT_TELEMETRY_DISABLED=1
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - reclutamiento-network
+
+  # Servicio para ejecutar migraciones (opcional, se ejecuta una vez)
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: reclutamiento-lkmx-migrate
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:5432/reclutamiento_lkmx
+    command: >
+      sh -c "
+        echo 'Esperando a que la base de datos esté lista...' &&
+        sleep 10 &&
+        npx prisma migrate deploy &&
+        echo 'Migraciones completadas'
+      "
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - reclutamiento-network
+    restart: "no"
+
+# Volúmenes persistentes
+volumes:
+  postgres_data:
+    driver: local
+  app_logs:
+    driver: local
+
+# Red personalizada
+networks:
+  reclutamiento-network:
+    driver: bridge
